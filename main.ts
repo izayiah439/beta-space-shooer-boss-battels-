@@ -2,11 +2,19 @@ namespace SpriteKind {
     export const boss = SpriteKind.create()
     export const op_food = SpriteKind.create()
     export const god_food = SpriteKind.create()
+    export const food_supply = SpriteKind.create()
+    export const gun_supply = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.boss, function (sprite, otherSprite) {
     otherSprite.destroy()
     scene.cameraShake(4, 500)
     info.changeLifeBy(-2)
+})
+sprites.onOverlap(SpriteKind.food_supply, SpriteKind.Player, function (sprite, otherSprite) {
+    info.setLife(30)
+})
+controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
+	
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, 0)
@@ -29,6 +37,34 @@ sprites.onOverlap(SpriteKind.god_food, SpriteKind.Player, function (sprite, othe
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
     info.setLife(100)
+})
+info.onLifeZero(function () {
+    game.over(true, effects.confetti)
+})
+sprites.onOverlap(SpriteKind.gun_supply, SpriteKind.Player, function (sprite, otherSprite) {
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.boss, function (sprite, otherSprite) {
     otherSprite.destroy(effects.fire, 500)
@@ -59,7 +95,9 @@ let power_guns: Sprite = null
 let bogey: Sprite = null
 let op_food2: Sprite = null
 let boss2: Sprite = null
+let supply_crate: Sprite = null
 let dimond: Sprite = null
+let more_guns: Sprite = null
 let projectile: Sprite = null
 let space_plane: Sprite = null
 effects.starField.startScreenEffect()
@@ -74,11 +112,23 @@ game.splash("high score 1k")
 space_plane = sprites.create(assets.image`galgaPlane1`, SpriteKind.Player)
 controller.moveSprite(space_plane, 200, 200)
 space_plane.setStayInScreen(true)
+game.onUpdateInterval(138000, function () {
+    more_guns = sprites.create(assets.image`gun supply`, SpriteKind.gun_supply)
+    more_guns.setVelocity(-100, 0)
+    more_guns.setPosition(160, randint(5, 115))
+    more_guns.setFlag(SpriteFlag.AutoDestroy, true)
+})
 game.onUpdateInterval(180000, function () {
     dimond = sprites.create(assets.image`dimond`, SpriteKind.god_food)
     dimond.setVelocity(-100, 0)
     dimond.setPosition(160, randint(5, 115))
     dimond.setFlag(SpriteFlag.AutoDestroy, true)
+})
+game.onUpdateInterval(120000, function () {
+    supply_crate = sprites.create(assets.image`supply -crate`, SpriteKind.food_supply)
+    supply_crate.setVelocity(-100, 0)
+    supply_crate.setPosition(160, randint(5, 115))
+    supply_crate.setFlag(SpriteFlag.AutoDestroy, true)
 })
 game.onUpdateInterval(60000, function () {
     boss2 = sprites.create(assets.image`Fast n Blurrious`, SpriteKind.boss)
